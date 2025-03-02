@@ -1,0 +1,6 @@
+@CCCTool.Server_HostAddress = http://localhost:5152
+
+GET {{CCCTool.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
