@@ -4,39 +4,30 @@ import Accordion from './components/AccordionItem.vue';
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="75" height="75" />
   </header>
 
   <main>
-    <Accordion />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <Accordion/>
+        </div>
+      </div>
+    </div>
+
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
+
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  margin-right: 1rem; /* Adjust margin as needed */
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+main {
+  margin-top: 125px; /* Adjust this value to prevent content from being hidden behind the fixed header */
 }
+
 </style>
