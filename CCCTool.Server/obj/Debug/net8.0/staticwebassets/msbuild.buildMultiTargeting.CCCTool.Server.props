@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\CCCTool.Server.props" />
-</Project>
