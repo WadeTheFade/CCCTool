@@ -1,5 +1,12 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "@googlemaps/js-api-loader": "^1.16.8",
+    "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.7",
+    "vue3-google-map": "^0.21.1"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^22.13.11"
   }
 }

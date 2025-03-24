@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const states = [
   { name: 'Alabama', abbreviation: 'AL' },
@@ -54,54 +54,90 @@ const states = [
   { name: 'Wyoming', abbreviation: 'WY' }
 ];
 
-/*declare const google: any;
+let selectedState = ref('');
+let streetAddress = ref('');
+let city = ref('');
+let zipCode = ref('');
 
-const streetAddress = ref('');
-const city = ref('');
-const selectedState = ref('');
-const zipCode = ref('');
-function initMap() {
+// Instantiate Geocoding Service
+const { Geocoder } = await google.maps.importLibrary('geocoding');
+const geocoder = new Geocoder();
+
+// Instantiate Geocoding Service
+const { StreetViewService } = await google.maps.importLibrary('streetView');
+const streetViewService = new StreetViewService();
+
+const updateStreetView = () => {
   const address = `${streetAddress.value}, ${city.value}, ${selectedState.value} ${zipCode.value}`;
-  const geocoder = new google.maps.Geocoder();
-  geocoder.geocode({ address: address }, (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-    const location = results[0].geometry.location;
-    const panorama = new google.maps.StreetViewPanorama(
-      document.getElementById("street-view") as HTMLElement,
-      {
-        position: location,
-        pov: {
-          heading: 34,
-          pitch: 10,
-        },
-        zoom:1
-      }
-    );
-    panorama.setStreetView(panorama);
+  let streetViewDiv = document.getElementById("street-view") as HTMLElement;
+   geocoder.geocode({address}, (results, status) => {
+    if (status === 'OK' && results[0]) {
+      const location = results[0].geometry.location;
+      let panoRequest = {
+        location: location,
+        radius: 50
+      } as google.maps.StreetViewLocationRequest;
+
+      streetViewService.getPanorama(panoRequest, function (streetViewPanoramaData, status) {
+
+        if(status ===google.maps.StreetViewStatus.OK){
+
+          var panoLocation = streetViewPanoramaData.location.latLng;
+
+          var heading = google.maps.geometry.spherical.computeHeading(panoLocation,location);
+
+          const panorama = new google.maps.StreetViewPanorama(
+            streetViewDiv,
+            {
+              position: location,
+              pov: {
+                heading: heading,
+                pitch: 0
+              },
+              zoom: 1
+            }
+          );
+          panorama.setVisible(true);
+          streetViewDiv.hidden = false;
+        }else{
+          streetViewDiv.hidden = true;
+        }
+      });
+    }
   });
+};
 
-}*/
+const debounce = (func, delay) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+};
 
-declare global {
-  interface Window {
-    initialize: () => void;
+const debouncedUpdateStreetView = debounce(updateStreetView, 1000);
+
+watch([streetAddress, city, selectedState, zipCode], () => {
+  if (streetAddress.value && city.value && selectedState.value && zipCode.value) {
+    debouncedUpdateStreetView();
   }
-}
-//window.initialize = initMap;
+});
+
 </script>
 
 <template>
   <div class="row">
-    <div class="col-auto">
+    <div class="col-6">
       <div class="row">
         <div class="form-outline mb-4">
           <label for="StreetAddress" class="form-label">Street Address</label>
-          <input type="text" id="StreetAddress" class="form-control" />
+          <input type="text" id="StreetAddress" v-model="streetAddress" class="form-control" />
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 mb-4">
           <label class="form-label" for="City">City</label>
-          <input type="text" id="City" class="form-control" />
+          <input type="text" id="City" v-model="city" class="form-control" />
         </div>
         <div class="col-md-4 mb-4">
           <label class="form-label" for="State">State</label>
@@ -115,14 +151,16 @@ declare global {
         <div class="col-md-4 mb-4">
           <div class="form-outline mb-4">
             <label class="form-label" for="ZipCode">Zip</label>
-            <input type="text" id="ZipCode" class="form-control" />
+            <input type="text" id="ZipCode" v-model="zipCode" class="form-control" />
           </div>
         </div>
       </div>
 
     </div>
-    <div class="col-auto">
-      <div id="street-view"></div>
+    <div class="col-6">
+      <div class="bg-body-secondary" style="height: 400px;">
+        <div id="street-view" style="width: 100%;"></div>
+      </div>
     </div>
   </div>
 

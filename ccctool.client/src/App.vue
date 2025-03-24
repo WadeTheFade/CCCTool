@@ -11,7 +11,9 @@ import Accordion from './components/AccordionItem.vue';
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <Accordion/>
+          <Suspense>
+            <Accordion/>
+          </Suspense>
         </div>
       </div>
     </div>

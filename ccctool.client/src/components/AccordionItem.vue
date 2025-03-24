@@ -6,6 +6,19 @@ import NeedsComponent from '@/components/NeedsComponent.vue';
 import SurveyComponent from '@/components/SurveyComponent.vue';
 import LocationComponent from '@/components/LocationComponent.vue';
 import BranchComponent from "@/components/BranchComponent.vue";
+import { Loader } from '@googlemaps/js-api-loader';
+
+const LoadGoogleMaps = async () => {
+  // Check if Google Maps has already been loaded
+  if (!window?.google?.maps) {
+    return await new Loader({
+      apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+      version: 'weekly',
+      libraries: ['core', 'maps', 'streetView', 'geometry', 'geocoding']
+      // Use .importLibrary('core'); in place of .load() to make google.maps available in the global scope.
+    }).importLibrary('core');
+  }
+};
 
 type Sections = {
   title: string,
@@ -51,32 +64,9 @@ export default defineComponent({
       let response = await fetch('sections');
       if (response.ok) {
         this.post = await response.json();
+        await LoadGoogleMaps();
         this.loading = false;
-
-        // Ensure the DOM is updated after data is fetched
-        nextTick(() => {
-          this.initializeEventListeners();
-        });
       }
-    },
-    initializeEventListeners() {
-      /*let formFields = document.querySelectorAll(".header-fields input, .header-fields select");
-
-      formFields.forEach((formField) => {
-        formField!.addEventListener('mouseenter', (e) => {
-          let header = formField.closest(".accordion-item")?.querySelector(".accordion-header");
-          if (header) {
-            header.querySelector("button")!.setAttribute('data-bs-toggle', '');
-          }
-        });
-
-        formField!.addEventListener('mouseleave', (e) => {
-          let header = formField.closest(".accordion-item")?.querySelector(".accordion-header");
-          if (header) {
-            header.querySelector("button")?.setAttribute('data-bs-toggle', 'collapse');
-          }
-        });
-      });*/
     }
   }
 });
