@@ -67,6 +67,12 @@ export default defineComponent({
         await LoadGoogleMaps();
         this.loading = false;
       }
+    },
+    toggleNotesVisibility(index: number) {
+      const notesInput = document.getElementById(`HeaderNotes${index}`) as HTMLElement;
+      if (notesInput) {
+        notesInput.style.display = notesInput.style.display === 'none' ? 'block' : 'none';
+      }
     }
   }
 });
@@ -83,7 +89,8 @@ export default defineComponent({
           data-bs-toggle="collapse"
           :data-bs-target="'#collapse' + index"
           aria-expanded="false"
-          :aria-controls="'collapse' + index">
+          :aria-controls="'collapse' + index"
+          @click="toggleNotesVisibility(index)">
           {{ item.title }}
         </button>
         <div class="d-flex align-items-center gap-3 w-100" v-html="item.html"></div>
@@ -93,7 +100,8 @@ export default defineComponent({
           data-bs-toggle="collapse"
           :data-bs-target="'#collapse' + index"
           aria-expanded="false"
-          :aria-controls="'collapse' + index">
+          :aria-controls="'collapse' + index"
+          @click="toggleNotesVisibility(index)">
         </button>
       </div>
 

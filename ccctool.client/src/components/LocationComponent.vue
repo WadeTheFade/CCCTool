@@ -128,13 +128,45 @@ watch([streetAddress, city, selectedState, zipCode], () => {
 <template>
   <div class="row">
     <div class="col-6">
-      <div class="row">
-        <div class="form-outline mb-4">
-          <label for="StreetAddress" class="form-label">Street Address</label>
-          <input type="text" id="StreetAddress" v-model="streetAddress" class="form-control" />
+      <div class="row mb-2">
+        <div class="col-6">
+            <label for="StreetAddress" class="form-label">Street Address</label>
+            <input type="text" id="StreetAddress" v-model="streetAddress" class="form-control" />
+        </div>
+        <div class="col-3">
+          <label class="form-label">Type:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="business" value="Business">
+            <label class="form-check-label" for="business">Business</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="residential" value="Residential">
+            <label class="form-check-label" for="residential">Residential</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <label class="form-label">Ownership:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="own" name="ownership" value="Own">
+            <label class="form-check-label" for="own">Own</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="rent" name="ownership" value="Rent">
+            <label class="form-check-label" for="rent">Rent</label>
+          </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-2">
+        <div class="col-6">
+          <label for="streetAddress2" class="form-label">Street Address 2</label>
+          <input type="text" id="streetAddress2" class="form-control" />
+        </div>
+        <div class="col-6">
+          <label for="apt" class="form-label">Apt/Suite</label>
+          <input type="text" id="apt" class="form-control" />
+        </div>
+      </div>
+      <div class="row mb-2">
         <div class="col-md-4 mb-4">
           <label class="form-label" for="City">City</label>
           <input type="text" id="City" v-model="city" class="form-control" />
@@ -147,12 +179,9 @@ watch([streetAddress, city, selectedState, zipCode], () => {
             </option>
           </select>
         </div>
-
         <div class="col-md-4 mb-4">
-          <div class="form-outline mb-4">
             <label class="form-label" for="ZipCode">Zip</label>
             <input type="text" id="ZipCode" v-model="zipCode" class="form-control" />
-          </div>
         </div>
       </div>
 
@@ -163,7 +192,31 @@ watch([streetAddress, city, selectedState, zipCode], () => {
       </div>
     </div>
   </div>
-
+  <div class="row">
+    <div class="col-4">
+      <label for="arrivalInstructions" class="form-label">Arrival Instructions</label>
+      <textarea class="form-control" id="arrivalInstructions" rows="3"></textarea>
+    </div>
+    <div class="col-4">
+      <label class="form-label">Accommodations:</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="parkOnStreet" value="ParkOnStreet">
+        <label class="form-check-label" for="parkOnStreet">Park On Street</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="bewareOfDog" value="BewareOfDog">
+        <label class="form-check-label" for="bewareOfDog">Beware of Dog</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="callAhead" value="CallAhead">
+        <label class="form-check-label" for="callAhead">Call Ahead</label>
+      </div>
+    </div>
+    <div class="col-4">
+      <label for="location_AdditionalNotes" class="form-label">Additional Notes</label>
+      <textarea class="form-control" id="location_AdditionalNotes" rows="3"></textarea>
+    </div>
+  </div>
 </template>
 
 <style scoped>

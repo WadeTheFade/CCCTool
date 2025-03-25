@@ -33,7 +33,7 @@
     <div class="col-4">
       <label for="additionalNotes" class="form-label">Additional Notes</label>
       <textarea class="form-control" id="additionalNotes" rows="3"></textarea>
-      <label for="additionalNotes" class="form-label">Ballpark Costs Given</label>
+      <label for="ballpark" class="form-label">Ballpark Costs Given</label>
       <input type="text" class="form-control" id="ballpark" />
     </div>
   </div>
